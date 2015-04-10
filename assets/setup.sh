@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ -z $NEWRELIC_LICENSE_KEY];
+if [ -z $NEWRELIC_LICENSE_KEY]
+then
 
-  nrsysmond-config --set license_key=$NEWRELIC_LICENSE_KEY;
-  /etc/init.d/newrelic-sysmond start;
-
-fi;
+  nrsysmond-config --set license_key=$NEWRELIC_LICENSE_KEY
+  /etc/init.d/newrelic-sysmond start
+fi
 
 cd /opt/alaveteli
 
@@ -21,14 +21,12 @@ ln -s $XAPIAN_MOUNT_PATH/$RAILS_ENV/ /opt/alaveteli/lib/acts_as_xapian/xapiandbs
 
 bundle exec rake db:create
 bundle exec rake db:migrate
-bundle exec rake themes:install
-bundle exec rake assets:precompile
-
-cp -rf /opt/alaveteli/public /data/alaveteli/public
 
 # Uncomment to rebuild the index on every launch of the container
 # bundle exec rake xapian:rebuild_index models="PublicBody User InfoRequestEvent"
 
 chown -R $(whoami) /data
 
-bundle exec unicorn_rails -c ./config/unicorn.rb
+bundle exec rackup sidekiq.ru &
+
+bundle exec sidekiq
