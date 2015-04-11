@@ -17,8 +17,7 @@ RUN apt-get -y install supervisor ca-certificates git postgresql-client build-es
   libicu-dev libmagic-dev libmagickwand-dev libmagickcore-dev libpq-dev libxml2-dev libxslt1-dev links \
   sqlite3 lockfile-progs mutt pdftk poppler-utils \
   postgresql-client tnef unrtf uuid-dev wkhtmltopdf wv xapian-tools \
-  redis-server \
-  newrelic-sysmond
+  redis-server newrelic-sysmond supervisor
 
 # Clone develop branch
 RUN git clone https://github.com/nzherald/alaveteli.git --branch sidekiq /opt/alaveteli
@@ -27,6 +26,8 @@ RUN git clone https://github.com/nzherald/alaveteli.git --branch sidekiq /opt/al
 ADD assets/database.yml /opt/alaveteli/config/database.yml
 ADD assets/general.yml /opt/alaveteli/config/general.yml
 ADD assets/newrelic.yml /opt/alaveteli/config/newrelic.yml
+# supervisor.conf
+ADD assets/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /opt/alaveteli
 
@@ -36,5 +37,7 @@ RUN git config --global url."https://".insteadOf git://
 
 RUN bundle install --without development debug test --deployment --retry=10
 ADD assets/setup.sh /opt/setup.sh
+
+EXPOSE 9292
 
 CMD /opt/setup.sh

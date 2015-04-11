@@ -27,6 +27,4 @@ bundle exec rake db:migrate
 
 chown -R $(whoami) /data
 
-bundle exec rackup sidekiq.ru &
-
-bundle exec sidekiq
+/usr/bin/supervisord
