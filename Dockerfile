@@ -26,8 +26,6 @@ RUN git clone https://github.com/nzherald/alaveteli.git --branch sidekiq /opt/al
 ADD assets/database.yml /opt/alaveteli/config/database.yml
 ADD assets/general.yml /opt/alaveteli/config/general.yml
 ADD assets/newrelic.yml /opt/alaveteli/config/newrelic.yml
-# supervisor.conf
-ADD assets/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /opt/alaveteli
 
@@ -37,6 +35,9 @@ RUN git config --global url."https://".insteadOf git://
 
 RUN bundle install --without development debug test --deployment --retry=10
 ADD assets/setup.sh /opt/setup.sh
+
+# supervisor.conf
+ADD assets/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 9292
 

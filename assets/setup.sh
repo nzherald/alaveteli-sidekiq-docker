@@ -2,7 +2,6 @@
 
 if [ -z "$NEWRELIC_LICENSE_KEY" ]
 then
-
   nrsysmond-config --set license_key=$NEWRELIC_LICENSE_KEY
   /etc/init.d/newrelic-sysmond start
 fi
@@ -21,9 +20,6 @@ ln -s $XAPIAN_MOUNT_PATH/$RAILS_ENV/ /opt/alaveteli/lib/acts_as_xapian/xapiandbs
 
 bundle exec rake db:create
 bundle exec rake db:migrate
-
-# Uncomment to rebuild the index on every launch of the container
-# bundle exec rake xapian:rebuild_index models="PublicBody User InfoRequestEvent"
 
 chown -R $(whoami) /data
 
