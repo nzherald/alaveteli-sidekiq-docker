@@ -14,7 +14,7 @@ RUN apt-get -y install supervisor ca-certificates git postgresql-client build-es
   libicu-dev libmagic-dev libmagickwand-dev libmagickcore-dev libpq-dev libxml2-dev libxslt1-dev links \
   sqlite3 lockfile-progs mutt pdftk poppler-utils \
   postgresql-client tnef unrtf uuid-dev wkhtmltopdf wv xapian-tools \
-  redis-server newrelic-sysmond supervisor
+  redis-server supervisor
 
 # Clone develop branch
 RUN git clone https://github.com/nzherald/alaveteli.git --branch sidekiq /opt/alaveteli
